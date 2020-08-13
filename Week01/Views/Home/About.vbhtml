@@ -2,7 +2,15 @@
     ViewData("Title") = "About"
 End Code
 
-<h2>@ViewData("Title").</h2>
-<h3>@ViewData("Message")</h3>
+<link rel="stylesheet" href="~/Content/about.css" />
 
-<p>Use this area to provide additional information.</p>
+<div class="first-section">
+    <h1>This page has been created using only CSS</h1>
+    <p>
+        CSS is a language that describes the style of an HTML document.
+
+        CSS describes how HTML elements should be displayed.
+    </p>
+
+</div>
+    

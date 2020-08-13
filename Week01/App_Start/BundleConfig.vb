@@ -3,10 +3,10 @@
 Public Module BundleConfig
     ' For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
     Public Sub RegisterBundles(ByVal bundles As BundleCollection)
-
+        'use {version} instead of actual version number 
         bundles.Add(New ScriptBundle("~/bundles/jquery").Include(
                     "~/Scripts/jquery-{version}.js"))
-
+        '* to select all matching strings
         bundles.Add(New ScriptBundle("~/bundles/jqueryval").Include(
                     "~/Scripts/jquery.validate*"))
 

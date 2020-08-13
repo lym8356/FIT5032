@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,7 +16,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", New With { .area = "" }, New With { .class = "navbar-brand" })
+                @Html.ActionLink("FIT5032 Week 2", "Index", "Home", New With {.area = ""}, New With {.class = "navbar-brand"})
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -31,7 +31,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - FIT5032 Week 2 Application Author: Yanming Lu</p>
         </footer>
     </div>
 
