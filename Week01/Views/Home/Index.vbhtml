@@ -4,7 +4,7 @@ End Code
 
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">Hello! Welcome to week 2! </h1>
+        <h1>Hello! Welcome to week 2! </h1>
         <p>Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web.</p>
         <p>This page has been created using Bootstrap 3!</p>
     </div>
