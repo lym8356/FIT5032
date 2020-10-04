@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline-block;"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</div>
+        <div><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></div>
+    }
+}
+else
+{
+    <div>@Html.ActionLink("Register", "Register", "Account")</div>
+    <div>@Html.ActionLink("Sign in", "Login", "Account")</div>
+}
