@@ -63,6 +63,7 @@
     <Property Name="FullName" Type="varchar" MaxLength="50" />
     <Property Name="Address" Type="varchar(max)" />
     <Property Name="DOB" Type="date" />
+    <Property Name="ProfilePicturePath" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="CartItem">
     <Key>
@@ -82,16 +83,28 @@
     <Property Name="categoryName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="categoryDescription" Type="nvarchar(max)" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'PC_Kingdom.dbo.Customer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="Customer">
+  <EntityType Name="Comment">
     <Key>
-      <PropertyRef Name="userId" />
+      <PropertyRef Name="commentId" />
     </Key>
+    <Property Name="commentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productId" Type="int" Nullable="false" />
     <Property Name="userId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="customerName" Type="nvarchar(max)" />
-    <Property Name="shippingAddress" Type="nvarchar(max)" />
-    <Property Name="billingAddress" Type="nvarchar(max)" />
+    <Property Name="commentDesc" Type="nvarchar(max)" />
+    <Property Name="rating" Type="int" />
+    <Property Name="commentDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="eventID" />
+    </Key>
+    <Property Name="eventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="subject" Type="nvarchar" MaxLength="100" />
+    <Property Name="description" Type="nvarchar(max)" />
+    <Property Name="startDate" Type="datetime" Nullable="false" />
+    <Property Name="endDate" Type="datetime" />
+    <Property Name="themeColor" Type="nchar" MaxLength="10" />
+    <Property Name="isFullDay" Type="bit" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -119,11 +132,13 @@ warning 6002: The table/view 'PC_Kingdom.dbo.Customer' does not have a primary k
     <Key>
       <PropertyRef Name="productId" />
     </Key>
-    <Property Name="productId" Type="int" Nullable="false" />
+    <Property Name="productId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="productName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="productDescription" Type="nvarchar(max)" />
     <Property Name="productPrice" Type="float" />
     <Property Name="productCategory" Type="nvarchar" MaxLength="50" />
+    <Property Name="productImage" Type="varbinary(max)" />
+    <Property Name="productRating" Type="int" />
   </EntityType>
   <EntityType Name="ShoppingCart">
     <Key>
@@ -132,6 +147,30 @@ warning 6002: The table/view 'PC_Kingdom.dbo.Customer' does not have a primary k
     <Property Name="cartId" Type="int" Nullable="false" />
     <Property Name="cartTotal" Type="float" />
   </EntityType>
+  <Association Name="FK_Comment_Comment">
+    <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+    <End Role="Comment1" Type="Self.Comment" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="commentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -197,18 +236,20 @@ warning 6002: The table/view 'PC_Kingdom.dbo.Customer' does not have a primary k
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CartItem" EntityType="Self.CartItem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShoppingCart" EntityType="Self.ShoppingCart" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Customer" EntityType="Self.Customer" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [Customer].[userId] AS [userId], 
-    [Customer].[customerName] AS [customerName], 
-    [Customer].[shippingAddress] AS [shippingAddress], 
-    [Customer].[billingAddress] AS [billingAddress]
-    FROM [dbo].[Customer] AS [Customer]</DefiningQuery>
-    </EntitySet>
+    <AssociationSet Name="FK_Comment_Comment" Association="Self.FK_Comment_Comment">
+      <End Role="Comment" EntitySet="Comment" />
+      <End Role="Comment1" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_Product" Association="Self.FK_Comment_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />

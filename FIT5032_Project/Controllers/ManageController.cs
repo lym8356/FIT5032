@@ -10,11 +10,18 @@ using FIT5032_Project.Models;
 
 namespace FIT5032_Project.Controllers
 {
+
+    //public class RoleViewModel
+    //{
+    //    public string Id { get; set; }
+    //    public string Name { get; set; }
+    //}
     [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        //private ApplicationRoleManager _roleManager;
 
         public ManageController()
         {
@@ -24,7 +31,27 @@ namespace FIT5032_Project.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            //RoleManager = roleManager;
+
         }
+
+        //public ActionResult Roles()
+        //{
+        //    var roles = RoleManager.Roles.ToList();
+        //    return View(roles.Select(x => new RoleViewModel() { Id = x.Id, Name = x.Name }));
+        //}
+
+        //public ApplicationRoleManager RoleManager
+        //{
+        //    get
+        //    {
+        //        return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+        //    }
+        //    private set
+        //    {
+        //        _roleManager = value;
+        //    }
+        //}
 
         public ApplicationSignInManager SignInManager
         {

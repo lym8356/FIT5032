@@ -1413,7 +1413,7 @@ select option
 }
 .product_image
 {
-	width: 100%;
+	width: 50%;
 	height: 115px;
 }
 .product_image img

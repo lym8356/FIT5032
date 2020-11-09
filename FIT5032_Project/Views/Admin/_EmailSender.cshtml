@@ -1,0 +1,41 @@
+﻿@model FIT5032_Project.Models.SendEmailViewModel
+@using (Html.BeginForm("Send_Email", "Admin", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ToEmail)
+        @Html.EditorFor(model => model.ToEmail, new { htmlAttributes = new { @class = "form-control", id = "email_recipient",
+       name = "email_recipient", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.ToEmail, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Subject)
+        @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", id = "email_subject",
+       name = "email_subject"} })
+        @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Contents)
+        @Html.TextAreaFor(model => model.Contents, new { @class = "form-control", name = "email_content", id = "email_content", 
+       placeholder = "Your Message Here", maxlength = 6000, rows = 7 })
+        @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Attachment)
+        @Html.TextBoxFor(model => model.Attachment, new
+            {
+                @class = "form-control",
+                type = "file",
+                id = "email_attachment",
+                name = "EmailAttachment"
+            })
+        @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" id="btnContactUs">Send</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+}

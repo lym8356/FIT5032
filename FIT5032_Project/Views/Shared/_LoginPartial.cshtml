@@ -1,16 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+@if (Request.IsAuthenticated && User.IsInRole("User"))
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline-block;"}))
     {
         @Html.AntiForgeryToken()
 
-        <div>@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</div>
+        <div><img src="@Url.Action("UserImages", "User" )" height="30" width="30" /></div>
+        <div class="pr-2">@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage"})</div>
         <div><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></div>
     }
 }
 else
 {
+    <div class="user_icon"><img src="~/Vendors/Frontend_template/images/user.svg" alt=""></div>
     <div>@Html.ActionLink("Register", "Register", "Account")</div>
     <div>@Html.ActionLink("Sign in", "Login", "Account")</div>
 }

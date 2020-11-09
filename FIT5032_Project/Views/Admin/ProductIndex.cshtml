@@ -1,0 +1,113 @@
+﻿@model List<FIT5032_Project.Models.Product>
+
+@{
+    ViewBag.Title = "ProductIndex";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section styles{
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-checkbox/datatables-checkbox.css" />
+    <link href="~/Vendors/Backend_template/plugins/datatables-checkbox/datatables-checkbox-boostrap4.css" rel="stylesheet" />
+
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Users</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <h3 class="card-header mb-2">
+                Product Table
+            </h3>
+            <div class="ml-auto mr-3 mt-2">
+                <a href="@Url.Action("ProductAdd", "Admin")" class="btn btn-lg btn-primary" style="float:right;"><i class="fa fa-plus-circle"></i> Create</a>
+            </div>
+        </div>
+
+        <table id="example1" class="table table-bordered table-striped" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Product Price</th>
+                    <th>Product Category</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+@section scripts{
+
+    <!-- DataTables  & Plugins -->
+    @*<script src="~/Vendors/Backend_template/plugins/jquery/jquery.min.js"></script>*@
+
+    <script src="~/Vendors/Backend_template/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        var dataTable;
+        var counter = 0;
+        $(document).ready(function () {
+            dataTable = $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "processing": true,
+                "autoWidth": true,
+                "info": true,
+                "responsive": true,
+                "language": {
+                    "emptyTable": "No data found, please <b>create</b> a new user"
+                },
+                "ajax": {
+                    "url": "@Url.Action("GetProductTable","Admin")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "ProductName" },
+                    { "data": "ProductDescription" },
+                    { "data": "ProductPrice" },
+                    { "data": "ProductCategory" },
+                    {
+                        "data": "ProductID", "render": function (data) {
+                            return '<a class= "btn btn-default btn-sm" href= "@Url.Action("ProductEdit", "Admin")/' + data +'"><i class="fas fa-pencil-alt"></i> Edit</a><a class= "btn btn-danger btn-sm" style="margin-left: 5px" href= "@Url.Action("ProductDelete", "Admin")/' + data +'" onclick="reloadDataTable()"><i class="fa fa-trash"></i> Delete</a>'
+                        },
+                        "orderable": false,
+                        "searchable": false
+
+                    }
+                ],
+                "dom": "lBfrtip",
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                'order': [[0, 'asc']]
+            })
+
+        });
+
+
+
+        function reloadDataTable() {
+            dataTable.ajax.reload();
+        }
+
+    </script>
+}
+

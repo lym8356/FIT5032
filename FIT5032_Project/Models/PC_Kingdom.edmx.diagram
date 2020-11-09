@@ -8,10 +8,8 @@
         <EntityTypeShape EntityType="PC_KingdomModel.Category" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PC_KingdomModel.Order" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PC_KingdomModel.OrderDetail" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PC_KingdomModel.Product" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PC_KingdomModel.ShoppingCart" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PC_KingdomModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="PC_KingdomModel.Customer" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="PC_KingdomModel.CartItem" Width="1.5" PointX="5.375" PointY="3.75" />
         <EntityTypeShape EntityType="PC_KingdomModel.AspNetRole" Width="1.5" PointX="0.75" PointY="8.625" />
         <EntityTypeShape EntityType="PC_KingdomModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="7.125" />
@@ -20,6 +18,11 @@
         <AssociationConnector Association="PC_KingdomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="PC_KingdomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="PC_KingdomModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="PC_KingdomModel.Event" Width="1.5" PointX="7.25" PointY="0.875" />
+        <EntityTypeShape EntityType="PC_KingdomModel.Comment" Width="1.5" PointX="11.75" PointY="4.25" />
+        <EntityTypeShape EntityType="PC_KingdomModel.Product" Width="1.5" PointX="9.75" PointY="4.375" />
+        <AssociationConnector Association="PC_KingdomModel.FK_Comment_Comment" />
+        <AssociationConnector Association="PC_KingdomModel.FK_Comment_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

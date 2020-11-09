@@ -1,0 +1,29 @@
+﻿@model FIT5032_Project.Models.Comment
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="col-lg-8 offset-lg-2">
+    <table style="width:100%; border: 1px solid black">
+        <tr>
+            <td>
+                @Model.commentDate.ToString()
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.commentDesc
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @for (int i = 0; i < @Model.rating; i++)
+                {
+                    <i class="fas fa-star"></i>
+                }
+                @for (int j = @Model.rating; j < 5; j++)
+                {
+                    <i class="fa fa-star-o"></i>
+                }
+            </td>
+        </tr>
+    </table>
+</div>

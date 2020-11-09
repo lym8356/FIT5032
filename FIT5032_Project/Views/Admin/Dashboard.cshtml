@@ -1,7 +1,7 @@
 ﻿
-@{
-    ViewBag.Title = "Dashboard";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+@{ ViewBag.Title = "Dashboard";
+                Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+@section styles{
 }
 
 <section class="content-header">
@@ -24,29 +24,104 @@
 
 <section class="content">
 
-    <!-- Default box -->
-    <div class="card">
+    <!-- PIE CHART -->
+    <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Title</h3>
+            <h3 class="card-title">User Info Chart</h3>
 
             <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
         </div>
         <div class="card-body">
-            Admin Dashboard content goes here.
+            <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
         </div>
         <!-- /.card-body -->
-        <div class="card-footer">
-            Footer
+    </div>
+    <!-- DONUT CHART -->
+    <div class="card card-danger">
+        <div class="card-header">
+            <h3 class="card-title">Product Info Chart</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
-        <!-- /.card-footer-->
+        <div class="card-body">
+            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+        <!-- /.card-body -->
     </div>
     <!-- /.card -->
 
 </section>
+
+@section scripts{
+    <script src="~/Vendors/Backend_template/plugins/chart.js/Chart.min.js"></script>
+    <script>
+        $(function () {
+            //-------------
+            //- PIE CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+            var pieData = {
+                labels: [
+                    'User',
+                ],
+                datasets: [
+                    {
+                        data: ["@ViewBag.userCount"],
+                        backgroundColor: ['#f56954'],
+                    }
+                ]
+            }
+            var pieOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            var pieChart = new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            })
+
+            var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            var donutData = {
+                labels: [
+                    'Product',
+                ],
+                datasets: [
+                    {
+                        data: ["@ViewBag.productCount"],
+                        backgroundColor: ['#00a65a'],
+                    }
+                ]
+            }
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            var donutChart = new Chart(donutChartCanvas, {
+                type: 'doughnut',
+                data: donutData,
+                options: donutOptions
+            })
+
+        })
+    </script>
+}

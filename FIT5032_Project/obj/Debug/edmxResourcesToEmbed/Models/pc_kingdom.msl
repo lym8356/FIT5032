@@ -34,17 +34,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="PC_KingdomModel.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="productId" ColumnName="productId" />
-          <ScalarProperty Name="productName" ColumnName="productName" />
-          <ScalarProperty Name="productDescription" ColumnName="productDescription" />
-          <ScalarProperty Name="productPrice" ColumnName="productPrice" />
-          <ScalarProperty Name="productCategory" ColumnName="productCategory" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ShoppingCarts">
       <EntityTypeMapping TypeName="PC_KingdomModel.ShoppingCart">
         <MappingFragment StoreEntitySet="ShoppingCart">
@@ -60,16 +49,6 @@
           <ScalarProperty Name="Model" ColumnName="Model" />
           <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
           <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Customers">
-      <EntityTypeMapping TypeName="PC_KingdomModel.Customer">
-        <MappingFragment StoreEntitySet="Customer">
-          <ScalarProperty Name="billingAddress" ColumnName="billingAddress" />
-          <ScalarProperty Name="shippingAddress" ColumnName="shippingAddress" />
-          <ScalarProperty Name="customerName" ColumnName="customerName" />
-          <ScalarProperty Name="userId" ColumnName="userId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -114,6 +93,7 @@
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="PC_KingdomModel.AspNetUser">
         <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="ProfilePicturePath" ColumnName="ProfilePicturePath" />
           <ScalarProperty Name="DOB" ColumnName="DOB" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -140,5 +120,43 @@
         <ScalarProperty Name="Id" ColumnName="RoleId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="Events">
+      <EntityTypeMapping TypeName="PC_KingdomModel.Event">
+        <MappingFragment StoreEntitySet="Event">
+          <ScalarProperty Name="isFullDay" ColumnName="isFullDay" />
+          <ScalarProperty Name="themeColor" ColumnName="themeColor" />
+          <ScalarProperty Name="endDate" ColumnName="endDate" />
+          <ScalarProperty Name="startDate" ColumnName="startDate" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="subject" ColumnName="subject" />
+          <ScalarProperty Name="eventID" ColumnName="eventID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="PC_KingdomModel.Comment">
+        <MappingFragment StoreEntitySet="Comment">
+          <ScalarProperty Name="commentDate" ColumnName="commentDate" />
+          <ScalarProperty Name="rating" ColumnName="rating" />
+          <ScalarProperty Name="commentDesc" ColumnName="commentDesc" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="productId" ColumnName="productId" />
+          <ScalarProperty Name="commentId" ColumnName="commentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="PC_KingdomModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="productRating" ColumnName="productRating" />
+          <ScalarProperty Name="productImage" ColumnName="productImage" />
+          <ScalarProperty Name="productCategory" ColumnName="productCategory" />
+          <ScalarProperty Name="productPrice" ColumnName="productPrice" />
+          <ScalarProperty Name="productDescription" ColumnName="productDescription" />
+          <ScalarProperty Name="productName" ColumnName="productName" />
+          <ScalarProperty Name="productId" ColumnName="productId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

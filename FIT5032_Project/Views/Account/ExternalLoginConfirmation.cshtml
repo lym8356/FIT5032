@@ -2,10 +2,25 @@
 @{
     ViewBag.Title = "Register";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>Associate your @ViewBag.LoginProvider account.</h3>
+@section styles{
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="~/Vendors/Login_template/images/icons/favicon.ico" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/vendor/animate/animate.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/vendor/css-hamburgers/hamburgers.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/vendor/select2/select2.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/css/util.css">
+        <link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/css/main.css">
+        <!--===============================================================================================-->
+        @*<link rel="stylesheet" type="text/css" href="~/Vendors/Login_template/fonts/font-awesome-4.7.0/css/font-awesome.min.css">*@
+        <!--===============================================================================================-->
+        <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+}
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@*@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
@@ -29,8 +44,130 @@
             <input type="submit" class="btn btn-default" value="Register" />
         </div>
     </div>
-}
+}*@
+
+<section>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt p-t-130 col-lg-4" data-tilt>
+                    <img src="~/Vendors/Login_template/images/img-01.png" alt="IMG">
+                </div>
+                @using (Html.BeginForm("ExternalLoginConfirmation", "Account", FormMethod.Post, new { @class = "login100-form validate-form row col-lg-4", role = "form", enctype = "multipart/form-data", ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="login100-form-title">
+                        Associate your @ViewBag.LoginProvider account.
+                    </span>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" data-validate="Please enter a username">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "input100", placeholder = "Username" })
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fas fa-user" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" data-validate="Please enter your full name">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "input100", placeholder = "Full Name" })
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-id-card" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "input100", placeholder = "Email" })
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+
+                    <div class="wrap-input100 validate-input" data-validate="Please enter your DOB">
+                        @Html.TextBoxFor(m => m.DOB, new { @class = "input100", placeholder = "DOB", id = "datepicker" })
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100" style="padding-left:34px;">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" data-validate="Please enter a valid phone number">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "input100", placeholder = "Phone Number" })
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100" style="padding-left:34px;">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+
+                    <div class="wrap-input100 validate-input" style="text-align: center">
+                        <div class="form-group pull-left" style="font-family: Poppins-Medium; font-size: 15px;">
+                            Profile pricture :
+                            @Html.TextBoxFor(m => m.ProfilePicturePath, new
+                            {
+                                @class = "input100 pt-2",
+                                type = "file",
+                                placeholder = "Profile Picture",
+                                accept = ".png,.jpg,.jpeg,.gif,.tif",
+                                name = "ProfilePicturePath"
+                            })
+                            <span class="symbol-input100" style="padding-left:34px; padding-top:15px;">
+                                <i class="fa fa-file-image-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <span class="focus-input100"></span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ProfilePicturePath, "", new { @class = "text-danger" })
+
+                    <div class="container-login100-form-btn pull-right pt-5" style="width: 100%;">
+                        <button class="login100-form-btn" type="submit">
+                            Create
+                        </button>
+                    </div>
+                 }
+            </div>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <!--===============================================================================================-->
+    @*<script src="~/Vendors/Login_template/vendor/jquery/jquery-3.2.1.min.js"></script>*@
+    <!--===============================================================================================-->
+    <script src="~/Vendors/Login_template/vendor/bootstrap/js/popper.js"></script>
+    @*<script src="~/Vendors/Login_template/vendor/bootstrap/js/bootstrap.min.js"></script>*@
+    <!--===============================================================================================-->
+    <script src="~/Vendors/Login_template/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Vendors/Login_template/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <!--===============================================================================================-->
+    <script src="~/Vendors/Login_template/js/main.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+    <script>
+        jQuery(function ($) {
+            var currentDate = new Date();
+            $("#datepicker").datepicker({
+                dateFormat: "yy-mm-dd",
+                changeYear: true,
+                changeMonth: true,
+                yearRange: "-120:+0",
+                defaultDate: currentDate
+            });
+        });
+    </script>
 }

@@ -101,8 +101,12 @@ D:\ASP NET Project\FIT5032\FIT5032_Project\bin\Microsoft.Owin.Security.Twitter.x
 D:\ASP NET Project\FIT5032\FIT5032_Project\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\ASP NET Project\FIT5032\FIT5032_Project\bin\Microsoft.Owin.Security.OAuth.xml
 D:\ASP NET Project\FIT5032\FIT5032_Project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.csprojAssemblyReference.cache
 D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.csproj.CoreCompileInputs.cache
 D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.csproj.CopyComplete
 D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.dll
 D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.pdb
+D:\ASP NET Project\FIT5032\FIT5032_Project\obj\Debug\FIT5032_Project.csprojAssemblyReference.cache
+D:\ASP NET Project\FIT5032\FIT5032_Project\bin\SendGrid.dll
+D:\ASP NET Project\FIT5032\FIT5032_Project\bin\StarkbankEcdsa.dll
+D:\ASP NET Project\FIT5032\FIT5032_Project\bin\SendGrid.pdb
+D:\ASP NET Project\FIT5032\FIT5032_Project\bin\SendGrid.xml

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Vendors/Backend_template/dist/css/adminlte.min.css">
+    @RenderSection("styles", required: false)
 </head>
 <!--
 `body` tag options:
@@ -128,6 +129,7 @@
                             <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                         </div>
                     </li>*@
+                @Html.Partial("_AdminLoginPartial")
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
@@ -144,7 +146,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="@Url.Action("Dashboard","Admin")" class="brand-link">
                 <img src="~/Vendors/Backend_template/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">PC Kingdom</span>
             </a>
@@ -154,15 +156,15 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="~/Vendors/Backend_template/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="@Url.Action("UserImages", "User" )" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">@User.Identity.GetUserName()</a>
                         @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline-block;"})){
-                        @Html.AntiForgeryToken()
-                        @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "d-block", title = "Manage" })
-                        <div><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></div>
-                        }*@
+                            @Html.AntiForgeryToken()
+                            @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { @class = "d-block", title = "Manage" })
+                            <div><a href="javascript:document.getElementById('logoutForm').submit()">Sign out</a></div>
+                            }*@
                     </div>
                 </div>
 
@@ -171,7 +173,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="../widgets.html" class="nav-link">
+                            <a href="@Url.Action("ProductIndex","Admin")" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Manage Products
@@ -181,7 +183,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="../widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon fas fa-clipboard-list"></i>
                                 <p>
                                     Manage Orders
                                     @*<span class="right badge badge-danger">New</span>*@
@@ -189,10 +191,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="../widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="@Url.Action("UserIndex","Admin")" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     Manage Users
+                                    @*<span class="right badge badge-danger">New</span>*@
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Booking_Calendar","Admin")" class="nav-link">
+                                <i class="nav-icon fas fa-truck"></i>
+                                <p>
+                                    Manage Delivery
                                     @*<span class="right badge badge-danger">New</span>*@
                                 </p>
                             </a>
@@ -220,7 +231,7 @@
         <!-- /.control-sidebar -->
         <!-- Main Footer -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2020 <a href="https://adminlte.io">PC Kingdom</a>.</strong>
+            <strong>Copyright &copy; 2020 <a href="#">PC Kingdom</a>.</strong>
             All rights reserved.
         </footer>
     </div>
@@ -232,12 +243,17 @@
     <script src="~/Vendors/Backend_template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
     <script src="~/Vendors/Backend_template/dist/js/adminlte.js"></script>
+    <!-- Jquery Validator -->
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <!-- OPTIONAL SCRIPTS -->
-    <script src="~/Vendors/Backend_template/plugins/chart.js/Chart.min.js"></script>
+    <!--<script src="~/Vendors/Backend_template/plugins/chart.js/Chart.min.js"></script>-->
     <!-- AdminLTE for demo purposes -->
-    <script src="~/Vendors/Backend_template/dist/js/demo.js"></script>
+    <!--<script src="~/Vendors/Backend_template/dist/js/demo.js"></script>-->
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="~/Vendors/Backend_template/dist/js/pages/dashboard3.js"></script>
+    <!--<script src="~/Vendors/Backend_template/dist/js/pages/dashboard3.js"></script>-->
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>

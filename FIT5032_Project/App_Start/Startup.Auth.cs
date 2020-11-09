@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using FIT5032_Project.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Mvc;
 
 namespace FIT5032_Project
 {
@@ -18,7 +20,7 @@ namespace FIT5032_Project
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+            //app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
 
             // Enable the application to use a cookie to store information for the signed in user
@@ -61,11 +63,46 @@ namespace FIT5032_Project
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "169940076457-rd7513r0uub3u3vqvmp1cek8as8v5n59.apps.googleusercontent.com",
+                ClientSecret = "MUmYbhTZcyfRdZjr6yvKSRDL"
+            });
+            createRolesandUsers();
+        }
+
+        private void createRolesandUsers() 
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            // create admin role if it does not exist
+            if (!roleManager.RoleExists("Admin"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Admin";
+                roleManager.Create(role);
+
+                // add default admin user
+                var user = new ApplicationUser();
+                user.UserName = "admin";
+                user.Email = "admin@pckingdom.com";
+
+                string userPwd = "admin123";
+                var userResult = userManager.Create(user, userPwd);
+
+                if (userResult.Succeeded)
+                {
+                    var addRoleResult = userManager.AddToRole(user.Id, "Admin");
+                }
+            }
+            // create user role if it does not exist
+            if (!roleManager.RoleExists("User"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "User";
+                roleManager.Create(role);
+            }
         }
     }
 }

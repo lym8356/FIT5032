@@ -53,11 +53,11 @@ namespace FIT5032_Project
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = false,
-                RequireDigit = false,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                //RequiredLength = 3,
+                //RequireNonLetterOrDigit = false,
+                //RequireDigit = false,
+                //RequireLowercase = false,
+                //RequireUppercase = false,
             };
 
             // Configure user lockout defaults
@@ -107,14 +107,14 @@ namespace FIT5032_Project
         }
     }
 
-    public class ApplicationRoleManager : RoleManager<ApplicationRole>
-    {
-        public ApplicationRoleManager(IRoleStore<ApplicationRole, string> roleStore) : base(roleStore) { }
+    //public class ApplicationRoleManager : RoleManager<IdentityRole>
+    //{
+    //    public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore) { }
 
-        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
-        {
-            var applicationRoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context.Get<ApplicationDbContext>()));
-            return applicationRoleManager;
-        }
-    }
+    //    public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+    //    {
+    //        var applicationRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+    //        return applicationRoleManager;
+    //    }
+    //}
 }

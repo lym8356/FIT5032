@@ -30,16 +30,6 @@
     <Property Name="unitCost" Type="Double" />
     <Property Name="subTotal" Type="Double" />
   </EntityType>
-  <EntityType Name="Product">
-    <Key>
-      <PropertyRef Name="productId" />
-    </Key>
-    <Property Name="productId" Type="Int32" Nullable="false" />
-    <Property Name="productName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="productDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="productPrice" Type="Double" />
-    <Property Name="productCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="ShoppingCart">
     <Key>
       <PropertyRef Name="cartId" />
@@ -51,10 +41,8 @@
     <EntitySet Name="Categories" EntityType="Self.Category" />
     <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
-    <EntitySet Name="Products" EntityType="Self.Product" />
     <EntitySet Name="ShoppingCarts" EntityType="Self.ShoppingCart" />
     <EntitySet Name="C__MigrationHistory" EntityType="PC_KingdomModel.C__MigrationHistory" />
-    <EntitySet Name="Customers" EntityType="PC_KingdomModel.Customer" />
     <EntitySet Name="CartItems" EntityType="PC_KingdomModel.CartItem" />
     <EntitySet Name="AspNetRoles" EntityType="PC_KingdomModel.AspNetRole" />
     <EntitySet Name="AspNetUserClaims" EntityType="PC_KingdomModel.AspNetUserClaim" />
@@ -72,6 +60,17 @@
       <End Role="AspNetRole" EntitySet="AspNetRoles" />
       <End Role="AspNetUser" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="Events" EntityType="PC_KingdomModel.Event" />
+    <EntitySet Name="Comments" EntityType="PC_KingdomModel.Comment" />
+    <EntitySet Name="Products" EntityType="PC_KingdomModel.Product" />
+    <AssociationSet Name="FK_Comment_Comment" Association="PC_KingdomModel.FK_Comment_Comment">
+      <End Role="Comment" EntitySet="Comments" />
+      <End Role="Comment1" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_Product" Association="PC_KingdomModel.FK_Comment_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -82,15 +81,6 @@
     <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
     <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
     <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
-  </EntityType>
-  <EntityType Name="Customer">
-    <Key>
-      <PropertyRef Name="userId" />
-    </Key>
-    <Property Name="userId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="customerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="shippingAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="billingAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="CartItem">
     <Key>
@@ -150,6 +140,7 @@
     <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="ProfilePicturePath" Type="Binary" MaxLength="Max" FixedLength="false" />
     <NavigationProperty Name="AspNetUserClaims" Relationship="PC_KingdomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="PC_KingdomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
     <NavigationProperty Name="AspNetRoles" Relationship="PC_KingdomModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
@@ -185,5 +176,68 @@
   <Association Name="AspNetUserRoles">
     <End Type="PC_KingdomModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
     <End Type="PC_KingdomModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="eventID" />
+    </Key>
+    <Property Name="eventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="subject" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="startDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="endDate" Type="DateTime" Precision="3" />
+    <Property Name="themeColor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="isFullDay" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="commentId" />
+    </Key>
+    <Property Name="commentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productId" Type="Int32" Nullable="false" />
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="commentDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="rating" Type="Int32" />
+    <Property Name="commentDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Comment1" Relationship="PC_KingdomModel.FK_Comment_Comment" FromRole="Comment" ToRole="Comment1" />
+    <NavigationProperty Name="Comment2" Relationship="PC_KingdomModel.FK_Comment_Comment" FromRole="Comment1" ToRole="Comment" />
+    <NavigationProperty Name="Product" Relationship="PC_KingdomModel.FK_Comment_Product" FromRole="Comment" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="productId" />
+    </Key>
+    <Property Name="productId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="productDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="productPrice" Type="Double" />
+    <Property Name="productCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="productImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="productRating" Type="Int32" />
+    <NavigationProperty Name="Comments" Relationship="PC_KingdomModel.FK_Comment_Product" FromRole="Product" ToRole="Comment" />
+  </EntityType>
+  <Association Name="FK_Comment_Comment">
+    <End Type="PC_KingdomModel.Comment" Role="Comment" Multiplicity="1" />
+    <End Type="PC_KingdomModel.Comment" Role="Comment1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="Comment1">
+        <PropertyRef Name="commentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_Product">
+    <End Type="PC_KingdomModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="PC_KingdomModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="productId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="productId" />
+      </Dependent>
+    </ReferentialConstraint>
   </Association>
 </Schema>

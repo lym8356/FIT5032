@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace FIT5032_Project.Models
 {
@@ -9,6 +10,27 @@ namespace FIT5032_Project.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name ="Full Name")]
+        public string FullName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Birth Date")]
+        public DateTime DOB { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public byte[] ProfilePicturePath { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+
     }
 
     public class ExternalLoginListViewModel
@@ -50,6 +72,9 @@ namespace FIT5032_Project.Models
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
@@ -82,11 +107,18 @@ namespace FIT5032_Project.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        [Required]
         [Display(Name ="Full Name")]
         public string FullName { get; set; }
 
         [Display(Name = "Address")]
         public string Address { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public byte[] ProfilePicturePath { get; set; }
 
         [Required]
         [Phone]

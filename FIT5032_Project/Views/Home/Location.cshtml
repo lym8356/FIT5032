@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2 style="background-color: Yellow;color: Blue; text-align: center; font-style: oblique">Satyaprakash's Goolge Map View With Distance And Duration Using MVC and BOOTSTRAP</h2>*@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div class="single_post">
+    <div class="container">
+        <div class="row">
+            <div id="dvDistance" class="card-header col-lg-10 offset-lg-1"></div>
+            <div class="col-lg-10 offset-lg-1 row" style="height: 600px;">
+                <input type="text" id="txtSource" class="form-control col-md-4 mr-5 mb-5" placeholder="Enter Source...." />
+                <input type="text" id="txtDestination" class="form-control col-md-4 mr-5 mb-5" placeholder="Enter Destination...." />
+                <button type="button" onclick="GetRoute()" class="btn btn-info mb-5">Calculate</button>
+                <div id="dvMap" class="m-t-10" style="height:100%;width:100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10 offset-lg-1">
+        <div id="dvPanel"></div>
+    </div>
+</div>
+
+
+
+<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIfn_IgVVh2cY3UTYmW07lY-G1ksCKfV8&libraries=places&callback=initMap"></script>
+
+<script type="text/javascript">
+    var source, destination, map;
+    var directionsDisplay, directionsService;
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        map = new google.maps.Map(document.getElementById("dvMap"), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 7
+        });
+        google.maps.event.addDomListener(window, 'load', function () {
+            new google.maps.places.SearchBox(document.getElementById('txtSource'));
+            new google.maps.places.SearchBox(document.getElementById('txtDestination'));
+            directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+        });
+    }
+    
+
+    function GetRoute() {
+        
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('dvPanel'));
+
+        source = document.getElementById("txtSource").value;
+        destination = document.getElementById("txtDestination").value;
+        if (source == '' || destination == '') {
+            alert('Source or destination missing!');
+            location.reload();
+        }
+        var request = {
+            origin: source,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+            }
+        });
+
+
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix({
+            origins: [source],
+            destinations: [destination],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false
+        }, function (response, status) {
+            if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+                var distance = response.rows[0].elements[0].distance.text;
+                var duration = response.rows[0].elements[0].duration.text;
+                var dvDistance = document.getElementById("dvDistance");
+                dvDistance.innerHTML = "";
+                dvDistance.innerHTML += "<div class='card-title'>Distance Is: " + distance + ".</div>";
+                dvDistance.innerHTML += "<div class='card-title'>Duration Is: " + duration + " By car.</div>";
+
+            } else {
+                alert("Your Request For Distance Not Available");
+            }
+        });
+    }
+</script>

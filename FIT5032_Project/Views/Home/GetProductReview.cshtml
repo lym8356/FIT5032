@@ -1,0 +1,76 @@
+﻿@model List<FIT5032_Project.Models.Comment>
+
+@{
+    ViewBag.Title = "ProductReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="single_post">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                @Html.Partial("_ProductReviewPartial", item)
+            }
+        </div>
+        <h4 class="mt-3">Please enter your comment below</h4>
+        @using (Html.BeginForm("AddComment", "Home", FormMethod.Post, new { onsubmit = "return verifyRating()" }))
+        {
+            <textarea rows="6" cols="50" class="form-control" id="txtComment" name="product_comment"></textarea>
+            <h4 class="mt-3">Please select a rating</h4>
+            <div onmouseout="RateSelected()">
+                <i id="icon1" class="fa fa-star-o fa-2x" onmouseout="RateOut(1)" onmouseover="RateOver(1)" onclick="RateClick(1)"></i>
+                <i id="icon2" class="fa fa-star-o fa-2x" onmouseout="RateOut(2)" onmouseover="RateOver(2)" onclick="RateClick(2)"></i>
+                <i id="icon3" class="fa fa-star-o fa-2x" onmouseout="RateOut(3)" onmouseover="RateOver(3)" onclick="RateClick(3)"></i>
+                <i id="icon4" class="fa fa-star-o fa-2x" onmouseout="RateOut(4)" onmouseover="RateOver(4)" onclick="RateClick(4)"></i>
+                <i id="icon5" class="fa fa-star-o fa-2x" onmouseout="RateOut(5)" onmouseover="RateOver(5)" onclick="RateClick(5)"></i>
+            </div>
+            <div>
+                <input type="hidden" name="rating" id="p_rating" value="0" />
+            </div>
+            <div>
+                <input type="hidden" name="product_id" id="product_id" value="@ViewBag.ProductId" />
+            </div>
+            <div class="mt-3">
+                <input type="submit" class="btn btn-primary" value="Post comment" />
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function RateOut(rating) {
+        for (var i = 1; i <= rating; i++) {
+            $("#icon" + i).attr('class', 'fa fa-star-o fa-2x');
+        }
+    }
+    function RateOver(rating) {
+        for (var i = 1; i <= rating; i++) {
+            $("#icon" + i).attr('class', 'fas fa-star fa-2x');
+        }
+    }
+    function RateClick(rating) {
+        $('#p_rating').val(rating);
+        for (var i = 1; i <= rating; i++) {
+            $("#icon" + i).attr('class', 'fas fa-star fa-2x');
+        }
+        for (var i = rating + 1; i <= 5; i++) {
+            $("#icon" + i).attr('class', 'fa fa-star-o fa-2x');
+        }
+    }
+    function RateSelected() {
+        var rating = $('#p_rating').val();
+        for (var i = 1; i <= rating; i++) {
+            $("#icon" + i).attr('class', 'fas fa-star fa-2x');
+        }
+    }
+
+    function verifyRating() {
+        var rating = $('#p_rating').val();
+        if (rating == "0") {
+            alert("Please select rating");
+            return false;
+        }
+    }
+</script>

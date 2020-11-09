@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNet.Identity
+<html>
+<head>
+    <style>
+        
+    </style>
+</head>
+<body>
+
+@if (Request.IsAuthenticated)
+{
+    <li class="nav-item dropdown user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            <img src="@Url.Action("UserImages", "User" )" class="user-image img-circle elevation-2" alt="User Image">
+            <span class="d-none d-md-inline">@User.Identity.GetUserName()</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <!-- User image -->
+            <li class="user-header bg-primary">
+                <img src="@Url.Action("UserImages", "User" )" class="img-circle elevation-2" alt="User Image">
+
+                <p>
+                    @User.Identity.GetUserName()
+                    <small>Member since Oct. 2020</small>
+                </p>
+            </li>
+            <li class="user-footer">
+                <a href="#">@Html.ActionLink("Profile", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Profile", @class = "btn btn-default btn-flat" })</a>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logoutForm", @style = "display:inline;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat float-right">Sign out</a>
+                }
+            </li>
+        </ul>
+    </li>
+
+    @*<div class="pr-2">@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage"})</div>*@
+}
+else
+{
+    @*<div class="user_icon"><img src="~/Vendors/Frontend_template/images/user.svg" alt=""></div>
+    <div>@Html.ActionLink("Register", "Register", "Account")</div>
+    <div>@Html.ActionLink("Sign in", "Login", "Account")</div>*@
+}
+</body>
+</html>

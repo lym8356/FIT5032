@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FIT5032_Project.Models;
+using System.IO;
+using System.Web.Security;
+using System.Web.Razor.Generator;
 
 namespace FIT5032_Project.Controllers
 {
@@ -58,9 +61,18 @@ namespace FIT5032_Project.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Dashboard", "Admin");
+                }else{
+                    return RedirectToAction("Index", "Manage");
+                }
+                
+            }
             return View();
         }
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -68,6 +80,7 @@ namespace FIT5032_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -75,11 +88,23 @@ namespace FIT5032_Project.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var user = await UserManager.FindAsync(model.UserName, model.Password);
+                    var role = await UserManager.GetRolesAsync(user.Id);
+                    if (role.Contains("User"))
+                    {
+                        return RedirectToAction("Index","Home");
+                    }else if (role.Contains("Admin"))
+                    {
+                        return RedirectToAction("Dashboard", "Admin");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -147,14 +172,29 @@ namespace FIT5032_Project.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Exclude = "ProfilePicturePath")]RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName, DOB = model.DOB };
+                // To convert the user uploaded Photo as Byte Array before save to DB  
+                byte[] imageData = null;
+                if (Request.Files.Count > 0)
+                {
+                    HttpPostedFileBase ImageFile = Request.Files["ProfilePicturePath"];
+                    using(var binary = new BinaryReader(ImageFile.InputStream))
+                    {
+                        imageData = binary.ReadBytes(ImageFile.ContentLength);
+                    }
+                }
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName, DOB = model.DOB , PhoneNumber = model.PhoneNumber};
+                // Pass the byte array to user context to store in db
+                user.ProfilePicturePath = imageData;
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // new registered users are assigned to user role
+                    await UserManager.AddToRoleAsync(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -352,7 +392,7 @@ namespace FIT5032_Project.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        public async Task<ActionResult> ExternalLoginConfirmation([Bind(Exclude = "ProfilePicturePath")] ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -361,16 +401,28 @@ namespace FIT5032_Project.Controllers
 
             if (ModelState.IsValid)
             {
+                byte[] imageData = null;
+                if (Request.Files.Count > 0)
+                {
+                    HttpPostedFileBase ImageFile = Request.Files["ProfilePicturePath"];
+                    using(var binary = new BinaryReader(ImageFile.InputStream))
+                    {
+                        imageData = binary.ReadBytes(ImageFile.ContentLength);
+                    }
+                }
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FullName = model.FullName, DOB = model.DOB, PhoneNumber = model.PhoneNumber };
+                user.ProfilePicturePath = imageData;
+
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, "User");
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {

@@ -1,0 +1,129 @@
+﻿@model FIT5032_Project.Models.Product
+
+@{
+    ViewBag.Title = "ProductEdit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section styles{
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/css/star-rating.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+}
+
+@using (Html.BeginForm("ProductEdit", "Admin", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    <!-- Main content -->
+    @Html.AntiForgeryToken()
+    <section class="content">
+        @Html.HiddenFor(model => model.productId)
+        <!-- Default box -->
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="col-12">
+                            <img src="@Url.Action("ProductImages","Admin", new RouteValueDictionary(new { product_id = Model.productId }))" class="product-image" alt="Product Image">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Product</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-truck"></i></span>
+                                    </div>
+                                    @Html.EditorFor(model => model.productName, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.productName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Category:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-list"></i></span>
+                                    </div>
+                                    @Html.EditorFor(model => model.productCategory, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.productCategory, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-clipboard"></i></span>
+                                    </div>
+                                    @Html.TextAreaFor(model => model.productDescription, new { @class = "form-control", rows = 5 })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.productDescription, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Price:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                    </div>
+                                    @Html.EditorFor(model => model.productPrice, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.productPrice, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Product Image</label>
+                                <div class="custom-file">
+                                    @Html.TextBoxFor(model => model.productImage, new
+                                    {
+                                        type = "file",
+                                        accept = ".png,.jpg,.jpeg,.gif,.tif",
+                                        name = "ProductImage",
+                                        @class = "form-control"
+                                    })
+
+                                </div>
+                                @Html.ValidationMessageFor(m => m.productImage, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Rating:</label>
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.productRating, new { htmlAttributes = new { @class = "form-control", id = "product_rating", type = "text", data_size = "sm", hidden = "hidden" } })
+                                    <input id="rating" data-size="md" />
+                                </div>
+                                @Html.ValidationMessageFor(model => model.productRating, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mt-4 pull-right">
+                                <a class="btn btn-primary" href="@Url.Action("ProductIndex","Admin")">
+                                    Back
+                                </a>
+                                <input type="submit" value="Save changes" class="btn btn-success float-right" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+}
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/js/star-rating.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('rating').val($('#product_rating').val()) 
+        })
+
+        $("#rating").rating({
+            theme: 'krajee-svg',
+            step: 1
+        });
+
+        $('#rating').on('rating:change', function (event, value, caption) {
+            $('#product_rating').val(value);
+        });
+    </script>
+}

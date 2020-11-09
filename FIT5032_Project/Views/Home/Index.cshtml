@@ -1,4 +1,97 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model List<FIT5032_Project.Models.Product>
+@{ ViewBag.Title = "Home Page"; }
+
+@section styles{
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/styles/shop_styles.css">
+    <link rel="stylesheet" type="text/css" href="~/Vendors/Frontend_template/styles/shop_responsive.css">
 }
 
+@*<h1>
+    <img src="@Url.Action("UserImages", "User" )" style="width:160px;height:160px; background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 60px;
+    border-radius: 100px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;" />
+</h1>*@
+<div class="super_container">
+    <div class="shop">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <!-- Shop Content -->
+
+                    <div class="shop_content">
+                        <div class="shop_bar clearfix">
+                            <div class="shop_product_count"><span>@Model.Count</span> products found</div>
+                            <div class="shop_sorting">
+                                <span>Sort by:</span>
+                                <ul>
+                                    <li>
+                                        <span class="sorting_text">highest rated</span>
+                                        <ul>
+                                            <li class="shop_sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>highest rated</li>
+                                            <li class="shop_sorting_button" data-isotope-option='{ "sortBy": "name" }'>name</li>
+                                            <li class="shop_sorting_button" data-isotope-option='{ "sortBy": "price" }'>price</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="product_grid">
+                            <div class="product_grid_border"></div>
+                            @foreach (var item in Model)
+                            {
+                                <!-- Product Item -->
+                                <div class="product_item is_new">
+                                    <div class="product_border"></div>
+                                    <div class="product_image d-flex flex-column align-items-center justify-content-center">
+                                        <a href="@Url.Action("ProductPage","Home",new {id = item.productId })"><img src="@Url.Action("ProductImages","Home", new {product_id = item.productId })" alt=""></a>
+                                    </div>
+                                    <div class="product_content">
+                                        <div class="product_price">@item.productPrice</div>
+                                        <div class="product_name"><div><a href="@Url.Action("ProductPage","Home",new {id = item.productId })" tabindex="0">@item.productName</a></div></div>
+                                    </div>
+                                    <ul class="product_marks">
+                                        <li class="product_mark product_discount">-25%</li>
+                                        <li class="product_mark product_new">new</li>
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Shop Page Navigation -->
+
+                        @*<div class="shop_page_nav d-flex flex-row">
+                            <div class="page_prev d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-left"></i></div>
+                            <ul class="page_nav d-flex flex-row">
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">...</a></li>
+                                <li><a href="#">21</a></li>
+                            </ul>
+                            <div class="page_next d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-right"></i></div>
+                        </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/Vendors/Frontend_template/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/Vendors/Frontend_template/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Vendors/Frontend_template/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script src="~/Vendors/Frontend_template/plugins/parallax-js-master/parallax.min.js"></script>
+    <script src="~/Vendors/Frontend_template/js/shop_custom.js"></script>
+}

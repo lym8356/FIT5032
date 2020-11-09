@@ -1,0 +1,179 @@
+﻿@model List<FIT5032_Project.Models.AspNetUser> 
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section styles{
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+    @*<link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-select/css/select.bootstrap4.min.css" />*@
+    <link rel="stylesheet" href="~/Vendors/Backend_template/plugins/datatables-checkbox/datatables-checkbox.css" />
+    <link href="~/Vendors/Backend_template/plugins/datatables-checkbox/datatables-checkbox-boostrap4.css" rel="stylesheet" />
+
+}
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Users</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="row">
+            <h3 class="card-header mb-2">
+                User Table
+            </h3>
+            <div class="ml-auto mr-3 mt-2">
+                <a href="@Url.Action("UserAdd", "Admin")" class="btn btn-lg btn-primary" style="float:right;"><i class="fa fa-plus-circle"></i> Create</a>
+            </div>
+            <div class="mt-2">
+                <button type="button" class="btn btn-lg btn-info p-r-5" data-toggle="modal" data-target="#myModal" onclick="emailBtn()" style="float:right;"><i class="fa fa-mail-bulk"></i> Email</button>
+            </div>
+        </div>
+
+        <table id="example1" class="table table-bordered table-striped" style="width:100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>User name</th>
+                    <th>Email</th>
+                    <th>Full name</th>
+                    <th>Address</th>
+                    <th>Phone number</th>
+                    <th>DOB</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Send email to selected users</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderPartial("_EmailSender"); }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <!-- DataTables  & Plugins -->
+    @*<script src="~/Vendors/Backend_template/plugins/jquery/jquery.min.js"></script>*@
+
+    <script src="~/Vendors/Backend_template/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/jszip/jszip.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-select/js/dataTables.select.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-select/js/select.bootstrap4.min.js"></script>
+    <script src="~/Vendors/Backend_template/plugins/datatables-checkbox/datatables-checkbox.min.js"></script>
+
+
+
+    <script>
+        var dataTable;
+        var counter = 0;
+        $(document).ready(function () {
+            dataTable = $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "processing": true,
+                "autoWidth": true,
+                "info": true,
+                "responsive": true,
+                "language": {
+                    "emptyTable": "No data found, please <b>create</b> a new user"
+                },
+                "ajax": {
+                    "url": "/Admin/GetUserTable",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "UserID",
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    },
+                    { "data": "UserName" },
+                    { "data": "Email" },
+                    { "data": "FullName" },
+                    { "data": "Address" },
+                    { "data": "PhoneNumber" },
+                    {
+                        "data": "DOB", 'render': function (jsonDate) {
+                            var date = new Date(parseInt(jsonDate.substr(6)));
+                            var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                            return date.getFullYear() + '-' + month + '-' + ("0" + date.getDate()).slice(-2);
+                        }
+                    },
+                    {
+                        "data": "UserID", "render": function (data) {
+                            return '<a class= "btn btn-default btn-sm" href= "@Url.Action("UserEdit", "Admin")/' + data +'"><i class="fas fa-pencil-alt"></i> Edit</a><a class= "btn btn-danger btn-sm" style="margin-left: 5px" href= "@Url.Action("UserDelete", "Admin")/' + data +'" onclick="reloadDataTable()"><i class="fa fa-trash"></i> Delete</a>'
+                        },
+                        "orderable": false,
+                        "searchable": false
+
+                    }
+                ],
+                "dom": "lBfrtip",
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                'columnDefs': [
+                    {
+                        'targets': 0,
+                        'checkboxes': {
+                            'selectRow': true
+                        }
+                    }
+                ],
+                'select': {
+                    'style': 'multi'
+                },
+                'order': [[1, 'asc']]
+            })
+
+        });
+
+
+
+        function reloadDataTable() {
+            dataTable.ajax.reload();
+        }
+
+
+        function emailBtn() {
+            var addressToSend = [];
+            var data = dataTable.rows({ selected: true }).data();
+
+            for (var i = 0; i < data.length; i++) {
+                addressToSend.push(data[i]["Email"]);
+            }
+            $("#email_recipient").val(addressToSend.toString());
+        }
+
+
+    </script>
+}
+

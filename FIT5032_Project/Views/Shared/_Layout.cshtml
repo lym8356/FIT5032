@@ -10,6 +10,7 @@
     <link href="~/Vendors/Frontend_template/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" />
     <link href="~/Vendors/Frontend_template/styles/regular_styles.css" rel="stylesheet" />
     <link href="~/Vendors/Frontend_template/styles/regular_responsive.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
 
 </head>
 <body>
@@ -25,13 +26,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col d-flex flex-row">
-                            
+
                             <div class="top_bar_contact_item"><div class="top_bar_icon"><img src="~/Vendors/Frontend_template/images/phone.png" /></div>+61 123 456 7890</div>
                             <div class="top_bar_contact_item"><div class="top_bar_icon"><img src="~/Vendors/Frontend_template/images/mail.png" alt=""></div><a href="mailto:yluu0001@student.monash.edu">yluu0001@student.monash.edu</a></div>
                             <div class="top_bar_content ml-auto">
-                                
+
                                 <div class="top_bar_user">
-                                    <div class="user_icon"><img src="~/Vendors/Frontend_template/images/user.svg" alt=""></div>
                                     @Html.Partial("_LoginPartial")
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
 
                                 <div class="main_nav_menu ml-auto">
                                     <ul class="standard_dropdown main_nav_dropdown">
-                                        <li><a href="index.html">Home<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="@Url.Action("Index", "Home")">Home<i class="fas fa-chevron-down"></i></a></li>
                                         <li class="hassubs">
                                             <a href="#">Super Deals<i class="fas fa-chevron-down"></i></a>
                                             <ul>
@@ -197,17 +197,17 @@
                                         <li class="hassubs">
                                             <a href="#">Pages<i class="fas fa-chevron-down"></i></a>
                                             <ul>
-                                                <li><a href="shop.html">Shop<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="product.html">Product<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="blog_single.html">Blog Post<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="regular.html">Regular Post<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="cart.html">Cart<i class="fas fa-chevron-down"></i></a></li>
-                                                <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Shop<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Product<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Blog<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Blog Post<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Regular Post<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Cart<i class="fas fa-chevron-down"></i></a></li>
+                                                <li><a href="#">Contact<i class="fas fa-chevron-down"></i></a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
-                                        <li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="@Url.Action("Location", "Home")">Map<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="#">Contact<i class="fas fa-chevron-down"></i></a></li>
                                     </ul>
                                 </div>
 
@@ -244,23 +244,23 @@
                                 </div>
                                 <ul class="page_menu_nav">
                                     @*<li class="page_menu_item has-children">
-                                        <a href="#">Language<i class="fa fa-angle-down"></i></a>
-                                        <ul class="page_menu_selection">
-                                            <li><a href="#">English<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">Italian<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">Spanish<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">Japanese<i class="fa fa-angle-down"></i></a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="page_menu_item has-children">
-                                        <a href="#">Currency<i class="fa fa-angle-down"></i></a>
-                                        <ul class="page_menu_selection">
-                                            <li><a href="#">US Dollar<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">EUR Euro<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">GBP British Pound<i class="fa fa-angle-down"></i></a></li>
-                                            <li><a href="#">JPY Japanese Yen<i class="fa fa-angle-down"></i></a></li>
-                                        </ul>
-                                    </li>*@
+                                            <a href="#">Language<i class="fa fa-angle-down"></i></a>
+                                            <ul class="page_menu_selection">
+                                                <li><a href="#">English<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">Italian<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">Spanish<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">Japanese<i class="fa fa-angle-down"></i></a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="page_menu_item has-children">
+                                            <a href="#">Currency<i class="fa fa-angle-down"></i></a>
+                                            <ul class="page_menu_selection">
+                                                <li><a href="#">US Dollar<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">EUR Euro<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">GBP British Pound<i class="fa fa-angle-down"></i></a></li>
+                                                <li><a href="#">JPY Japanese Yen<i class="fa fa-angle-down"></i></a></li>
+                                            </ul>
+                                        </li>*@
                                     <li class="page_menu_item">
                                         <a href="index.html">Home<i class="fa fa-angle-down"></i></a>
                                     </li>
@@ -431,10 +431,10 @@
 
                         <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
                             <div class="copyright_content">
-                               
+
                                 Copyright &copy;
                                 <script>document.write(new Date().getFullYear());</script> All rights reserved | This website is made by <a href="#" target="_blank">Monash University</a>
-                             
+
                             </div>
                             <div class="logos ml-sm-auto">
                                 <ul class="logos_list">
@@ -450,10 +450,9 @@
             </div>
         </div>
     </div>
-    
+
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @*@Scripts.Render("~/bundles/bootstrap")*@
     @*<script src="js/jquery-3.3.1.min.js"></script>*@
     <script src="~/Vendors/Frontend_template/styles/bootstrap4/popper.js"></script>
     <script src="~/Vendors/Frontend_template/styles/bootstrap4/bootstrap.min.js"></script>
@@ -464,5 +463,6 @@
     <script src="~/Vendors/Frontend_template/plugins/greensock/ScrollToPlugin.min.js"></script>
     <script src="~/Vendors/Frontend_template/plugins/easing/easing.js"></script>
     <script src="~/Vendors/Frontend_template/js/regular_custom.js"></script>
+    @RenderSection("scripts", required: false)
 </body>
 </html>
